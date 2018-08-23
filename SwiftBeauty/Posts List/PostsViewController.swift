@@ -39,8 +39,7 @@ extension PostsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
-        cell.setPost(data[indexPath.row])
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath)
         return cell
     }
 }
@@ -48,6 +47,9 @@ extension PostsViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension PostsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cell = cell as! PostCell
+        cell.setPost(data[indexPath.row])
+
         guard indexPath.row == data.count - 1, viewModel.hasMoreData else {
             return
         }
