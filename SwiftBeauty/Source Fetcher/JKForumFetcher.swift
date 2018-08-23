@@ -99,7 +99,7 @@ class JKForumFetcher {
         let elements = try document.select("ul#alist a")
         let baseURL = URL(string: "https://www.jkforum.net/")!
 
-        let posts = elements.array().compactMap{ e -> Post? in
+        let posts = elements.array().compactMap { e -> Post? in
             guard let href = try? e.attr("href"),
                 let image = try? e.select("img").first(),
                 let title = try? e.select("h1").first()
@@ -121,7 +121,7 @@ class JKForumFetcher {
 
     private func parse(_ document: Document) throws -> [URL] {
         let elements = try document.select("div.first ignore_js_op > img")
-        let urls = elements.array().compactMap{ e -> URL? in
+        let urls = elements.array().compactMap { e -> URL? in
             guard let src = try? e.attr("file") else {
                 return nil
             }

@@ -66,7 +66,7 @@ final class TimLiaoFetcher: SourceFetchable {
         let query = "#container_all > form li.forum-card > div.pic > a:not([href='http://www.timliao.com'])"
         let elements = try document.select(query)
 
-        let posts = elements.array().compactMap{ e -> Post? in
+        let posts = elements.array().compactMap { e -> Post? in
             guard let image = try? e.select("img").first(),
                 let title = try? e.parent()?.parent()?.select("h2.subject > a").first()
             else {
@@ -90,7 +90,7 @@ final class TimLiaoFetcher: SourceFetchable {
         let query = "div.postcontent > div.mt10 > a > img"
         let elements = try document.select(query)
 
-        let urls = elements.array().compactMap{ e -> URL? in
+        let urls = elements.array().compactMap { e -> URL? in
             guard let src = try? e.attr("src") else {
                 return nil
             }

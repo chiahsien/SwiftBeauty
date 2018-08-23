@@ -33,6 +33,7 @@ extension DataRequest {
         }
     }
 
+    // swiftlint:disable opening_brace
     @discardableResult
     func responseHTMLDocument(
         queue: DispatchQueue? = nil,
