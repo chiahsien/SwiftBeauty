@@ -33,14 +33,11 @@ extension DataRequest {
         }
     }
 
-    // swiftlint:disable opening_brace
     @discardableResult
     func responseHTMLDocument(
         queue: DispatchQueue? = nil,
         encoding: String.Encoding? = nil,
-        completionHandler: @escaping (DataResponse<Document>) -> Void)
-        -> Self
-    {
+        completionHandler: @escaping (DataResponse<Document>) -> Void) -> Self {
         return response(
             queue: queue,
             responseSerializer: DataRequest.htmlResponseSerializer(encoding: encoding),
@@ -51,9 +48,7 @@ extension DataRequest {
     @discardableResult
     func responseHTMLDocument(
         encoding: String.Encoding? = nil,
-        completionHandler: @escaping (DataResponse<Document>) -> Void)
-        -> Self
-    {
+        completionHandler: @escaping (DataResponse<Document>) -> Void) -> Self {
         return response(
             queue: nil,
             responseSerializer: DataRequest.htmlResponseSerializer(encoding: encoding),

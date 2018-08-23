@@ -213,6 +213,7 @@
 				52FF672F2112131F00C6B800 /* Frameworks */,
 				52FF67302112131F00C6B800 /* Resources */,
 				7150ED85D3D62BFF50E3D9A3 /* [CP] Embed Pods Frameworks */,
+				52047A99212EFFBE000F13CB /* Run SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -273,6 +274,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		52047A99212EFFBE000F13CB /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"";
+		};
 		7150ED85D3D62BFF50E3D9A3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -292,7 +307,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftBeauty/Pods-SwiftBeauty-frameworks.sh\"\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftBeauty/Pods-SwiftBeauty-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BC7559747C41AA71B8F772CD /* [CP] Check Pods Manifest.lock */ = {
