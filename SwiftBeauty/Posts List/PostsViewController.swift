@@ -49,7 +49,7 @@ extension PostsViewController: UITableViewDataSource {
 extension PostsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard indexPath.row == data.count - 1, viewModel.hasMoreData else {
-            return;
+            return
         }
         viewModel.fetchPostsAtNextPage { result in
             self.handleResult(result)

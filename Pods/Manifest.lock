@@ -1,24 +1,28 @@
 PODS:
   - Alamofire (4.7.1)
   - Kingfisher (4.8.1)
+  - SwiftLint (0.27.0)
   - SwiftSoup (1.7.2)
 
 DEPENDENCIES:
   - Alamofire
   - Kingfisher
+  - SwiftLint (~> 0.27.0)
   - SwiftSoup
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - Kingfisher
+    - SwiftLint
     - SwiftSoup
 
 SPEC CHECKSUMS:
   Alamofire: 68d7d521118d49c615a8d2214d87cdf525599d30
   Kingfisher: 868c1149679a7ab6869be118faa9b5aed154aaf0
+  SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
   SwiftSoup: e5f61d37e3d802a4b5db81b4945de3da9bfdf115
 
-PODFILE CHECKSUM: 496d9ce40b3f1903a03451a939c7e40c43692285
+PODFILE CHECKSUM: d01a2e7a80e28789fafb14b400a37eef66a9ab1f
 
 COCOAPODS: 1.5.3

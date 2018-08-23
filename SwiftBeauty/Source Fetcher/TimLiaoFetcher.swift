@@ -32,7 +32,7 @@ final class TimLiaoFetcher: SourceFetchable {
 
             do {
                 let posts: [Post] = try self.parse(document)
-                let result: FetchResult<[Post]> = (posts.count > 0 ? .success(posts) : .failure(.emptyData))
+                let result: FetchResult<[Post]> = (posts.isEmpty ? .failure(.emptyData) : .success(posts))
                 completionHandler(result)
             } catch {
                 let result: FetchResult<[Post]> = .failure(.parse(error: error))
@@ -42,7 +42,7 @@ final class TimLiaoFetcher: SourceFetchable {
     }
 
     func fetchPhotos(at url: URL, completionHandler: @escaping (FetchResult<[URL]>) -> Void) {
-        Alamofire.request(url).validate().responseHTMLDocument() { response in
+        Alamofire.request(url).validate().responseHTMLDocument { response in
             guard case let .success(document) = response.result else {
                 let result: FetchResult<[URL]> = .failure(response.result.error! as! CustomError)
                 completionHandler(result)
@@ -51,7 +51,7 @@ final class TimLiaoFetcher: SourceFetchable {
 
             do {
                 let urls: [URL] = try self.parse(document)
-                let result: FetchResult<[URL]> = (urls.count > 0 ? .success(urls) : .failure(.emptyData))
+                let result: FetchResult<[URL]> = (urls.isEmpty ? .failure(.emptyData) : .success(urls))
                 completionHandler(result)
             } catch {
                 let result: FetchResult<[URL]> = .failure(.parse(error: error))
@@ -66,7 +66,7 @@ final class TimLiaoFetcher: SourceFetchable {
         let query = "#container_all > form li.forum-card > div.pic > a:not([href='http://www.timliao.com'])"
         let elements = try document.select(query)
 
-        let posts = elements.array().compactMap{ e -> Post? in
+        let posts = elements.array().compactMap { e -> Post? in
             guard let image = try? e.select("img").first(),
                 let title = try? e.parent()?.parent()?.select("h2.subject > a").first()
             else {
@@ -90,7 +90,7 @@ final class TimLiaoFetcher: SourceFetchable {
         let query = "div.postcontent > div.mt10 > a > img"
         let elements = try document.select(query)
 
-        let urls = elements.array().compactMap{ e -> URL? in
+        let urls = elements.array().compactMap { e -> URL? in
             guard let src = try? e.attr("src") else {
                 return nil
             }

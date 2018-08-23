@@ -32,7 +32,7 @@ final class PhotoBrowserViewController: UIViewController {
     private var data = [URL]()
     private var currentIndex = 0 {
         didSet {
-            if data.count > 0 {
+            if !data.isEmpty {
                 indexLabel.text = "\(currentIndex + 1) / \(data.count)"
             }
         }
@@ -67,11 +67,11 @@ final class PhotoBrowserViewController: UIViewController {
         coordinator.animate(alongsideTransition: { (_) in
             let offset = CGPoint(x: CGFloat(self.currentIndex) * self.collectionView.bounds.size.width, y: 0)
             self.collectionView.contentOffset = offset
-        }) { (_) in
+        }, completion: { (_) in
             self.collectionView.collectionViewLayout.invalidateLayout()
             self.collectionView.isHidden = false
             self.maskImageView.isHidden = true
-        }
+        })
     }
 }
 
@@ -84,7 +84,7 @@ extension PhotoBrowserViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
         cell.setImage(with: data[indexPath.item])
-        return cell;
+        return cell
     }
 }
 

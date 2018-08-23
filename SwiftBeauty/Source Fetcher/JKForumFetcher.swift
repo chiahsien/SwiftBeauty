@@ -56,7 +56,7 @@ class JKForumFetcher {
 
     func fetchPosts(with forumID: String, at page: UInt, completionHandler: @escaping (FetchResult<[Post]>) -> Void) {
         let path = "https://www.jkforum.net/forum.php?mod=forumdisplay&fid=\(forumID)&mobile=yes&page=\(page)"
-        Alamofire.request(path).validate().responseHTMLDocument() { response in
+        Alamofire.request(path).validate().responseHTMLDocument { response in
             guard case let .success(document) = response.result else {
                 let result: FetchResult<[Post]> = .failure(response.result.error! as! CustomError)
                 completionHandler(result)
@@ -65,7 +65,7 @@ class JKForumFetcher {
 
             do {
                 let posts: [Post] = try self.parse(document)
-                let result: FetchResult<[Post]> = (posts.count > 0 ? .success(posts) : .failure(.emptyData))
+                let result: FetchResult<[Post]> = (posts.isEmpty ? .failure(.emptyData) : .success(posts))
                 completionHandler(result)
             } catch {
                 let result: FetchResult<[Post]> = .failure(.parse(error: error))
@@ -75,7 +75,7 @@ class JKForumFetcher {
     }
 
     func fetchPhotos(at url: URL, completionHandler: @escaping (FetchResult<[URL]>) -> Void) {
-        Alamofire.request(url).validate().responseHTMLDocument() { response in
+        Alamofire.request(url).validate().responseHTMLDocument { response in
             guard case let .success(document) = response.result else {
                 let result: FetchResult<[URL]> = .failure(response.result.error! as! CustomError)
                 completionHandler(result)
@@ -84,7 +84,7 @@ class JKForumFetcher {
 
             do {
                 let urls: [URL] = try self.parse(document)
-                let result: FetchResult<[URL]> = (urls.count > 0 ? .success(urls) : .failure(.emptyData))
+                let result: FetchResult<[URL]> = (urls.isEmpty ? .failure(.emptyData) : .success(urls))
                 completionHandler(result)
             } catch {
                 let result: FetchResult<[URL]> = .failure(.parse(error: error))
@@ -99,7 +99,7 @@ class JKForumFetcher {
         let elements = try document.select("ul#alist a")
         let baseURL = URL(string: "https://www.jkforum.net/")!
 
-        let posts = elements.array().compactMap{ e -> Post? in
+        let posts = elements.array().compactMap { e -> Post? in
             guard let href = try? e.attr("href"),
                 let image = try? e.select("img").first(),
                 let title = try? e.select("h1").first()
@@ -121,7 +121,7 @@ class JKForumFetcher {
 
     private func parse(_ document: Document) throws -> [URL] {
         let elements = try document.select("div.first ignore_js_op > img")
-        let urls = elements.array().compactMap{ e -> URL? in
+        let urls = elements.array().compactMap { e -> URL? in
             guard let src = try? e.attr("file") else {
                 return nil
             }
