@@ -67,11 +67,11 @@ final class PhotoBrowserViewController: UIViewController {
         coordinator.animate(alongsideTransition: { (_) in
             let offset = CGPoint(x: CGFloat(self.currentIndex) * self.collectionView.bounds.size.width, y: 0)
             self.collectionView.contentOffset = offset
-        }) { (_) in
+        }, completion: { (_) in
             self.collectionView.collectionViewLayout.invalidateLayout()
             self.collectionView.isHidden = false
             self.maskImageView.isHidden = true
-        }
+        })
     }
 }
 
