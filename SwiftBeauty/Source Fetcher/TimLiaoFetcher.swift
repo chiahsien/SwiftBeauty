@@ -42,7 +42,7 @@ final class TimLiaoFetcher: SourceFetchable {
     }
 
     func fetchPhotos(at url: URL, completionHandler: @escaping (FetchResult<[URL]>) -> Void) {
-        Alamofire.request(url).validate().responseHTMLDocument() { response in
+        Alamofire.request(url).validate().responseHTMLDocument { response in
             guard case let .success(document) = response.result else {
                 let result: FetchResult<[URL]> = .failure(response.result.error! as! CustomError)
                 completionHandler(result)

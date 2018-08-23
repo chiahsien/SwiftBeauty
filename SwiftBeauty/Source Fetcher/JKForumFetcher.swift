@@ -56,7 +56,7 @@ class JKForumFetcher {
 
     func fetchPosts(with forumID: String, at page: UInt, completionHandler: @escaping (FetchResult<[Post]>) -> Void) {
         let path = "https://www.jkforum.net/forum.php?mod=forumdisplay&fid=\(forumID)&mobile=yes&page=\(page)"
-        Alamofire.request(path).validate().responseHTMLDocument() { response in
+        Alamofire.request(path).validate().responseHTMLDocument { response in
             guard case let .success(document) = response.result else {
                 let result: FetchResult<[Post]> = .failure(response.result.error! as! CustomError)
                 completionHandler(result)
@@ -75,7 +75,7 @@ class JKForumFetcher {
     }
 
     func fetchPhotos(at url: URL, completionHandler: @escaping (FetchResult<[URL]>) -> Void) {
-        Alamofire.request(url).validate().responseHTMLDocument() { response in
+        Alamofire.request(url).validate().responseHTMLDocument { response in
             guard case let .success(document) = response.result else {
                 let result: FetchResult<[URL]> = .failure(response.result.error! as! CustomError)
                 completionHandler(result)
