@@ -48,7 +48,6 @@ DerivedData
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-xcuserdata
 
 ## Other
 *.xccheckout
@@ -70,8 +69,8 @@ xcuserdata
 
 ### Xcode Patch ###
 *.xcodeproj/*
+*.xcworkspace/xcuserdata/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
-*.xcworkspace/xcuserdata/
