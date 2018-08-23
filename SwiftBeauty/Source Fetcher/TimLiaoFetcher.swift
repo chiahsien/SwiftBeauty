@@ -32,7 +32,7 @@ final class TimLiaoFetcher: SourceFetchable {
 
             do {
                 let posts: [Post] = try self.parse(document)
-                let result: FetchResult<[Post]> = (posts.count > 0 ? .success(posts) : .failure(.emptyData))
+                let result: FetchResult<[Post]> = (posts.isEmpty ? .failure(.emptyData) : .success(posts))
                 completionHandler(result)
             } catch {
                 let result: FetchResult<[Post]> = .failure(.parse(error: error))
@@ -51,7 +51,7 @@ final class TimLiaoFetcher: SourceFetchable {
 
             do {
                 let urls: [URL] = try self.parse(document)
-                let result: FetchResult<[URL]> = (urls.count > 0 ? .success(urls) : .failure(.emptyData))
+                let result: FetchResult<[URL]> = (urls.isEmpty ? .failure(.emptyData) : .success(urls))
                 completionHandler(result)
             } catch {
                 let result: FetchResult<[URL]> = .failure(.parse(error: error))

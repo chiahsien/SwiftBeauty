@@ -32,7 +32,7 @@ final class PhotoBrowserViewController: UIViewController {
     private var data = [URL]()
     private var currentIndex = 0 {
         didSet {
-            if data.count > 0 {
+            if !data.isEmpty {
                 indexLabel.text = "\(currentIndex + 1) / \(data.count)"
             }
         }
