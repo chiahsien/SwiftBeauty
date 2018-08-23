@@ -84,7 +84,7 @@ extension PhotoBrowserViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
         cell.setImage(with: data[indexPath.item])
-        return cell;
+        return cell
     }
 }
 
