@@ -1,13 +1,14 @@
-# Created by https://www.gitignore.io/api/xcode,osx,objective-c
 
-### OSX ###
+# Created by https://www.gitignore.io/api/xcode,macos,swift,objective-c
+
+### macOS ###
+# General
 .DS_Store
 .AppleDouble
 .LSOverride
 
 # Icon must end with two \r
 Icon
-
 
 # Thumbnails
 ._*
@@ -28,8 +29,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-
-
 ### Objective-C ###
 # Xcode
 #
@@ -37,7 +36,7 @@ Temporary Items
 
 ## Build generated
 build/
-DerivedData
+DerivedData/
 
 ## Various settings
 *.pbxuser
@@ -48,15 +47,12 @@ DerivedData
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
+xcuserdata/
 
 ## Other
-*.xccheckout
 *.moved-aside
-*.xcuserstate
+*.xccheckout
 *.xcscmblueprint
-
-## Cocoapods
-# Pods
 
 ## Obj-C/Swift specific
 *.hmap
@@ -64,13 +60,25 @@ DerivedData
 *.dSYM.zip
 *.dSYM
 
-### Objective-C Patch ###
-*.xcscmblueprint
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Swift Package Manager
+#
+# Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
+# Packages/
+# Package.pins
+# Package.resolved
+.build/
 
 ### Xcode Patch ###
 *.xcodeproj/*
-*.xcworkspace/xcuserdata/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
+
+
+# End of https://www.gitignore.io/api/xcode,macos,swift,objective-c
