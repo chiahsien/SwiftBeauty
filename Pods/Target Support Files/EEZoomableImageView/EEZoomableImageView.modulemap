@@ -1,0 +1,6 @@
+framework module EEZoomableImageView {
+  umbrella header "EEZoomableImageView-umbrella.h"
+
+  export *
+  module * { export * }
+}

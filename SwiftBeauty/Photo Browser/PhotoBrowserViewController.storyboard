@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,17 +35,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="361" height="628"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RIi-i9-0lB">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RIi-i9-0lB" customClass="EEZoomableImageView" customModule="EEZoomableImageView">
                                                     <rect key="frame" x="0.0" y="0.0" width="361" height="628"/>
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="RIi-i9-0lB" firstAttribute="leading" secondItem="AOF-L9-UJN" secondAttribute="leading" id="EVH-pJ-tBb"/>
-                                            <constraint firstAttribute="bottom" secondItem="RIi-i9-0lB" secondAttribute="bottom" id="NZp-AC-4al"/>
-                                            <constraint firstAttribute="trailing" secondItem="RIi-i9-0lB" secondAttribute="trailing" id="aup-ii-9rE"/>
-                                            <constraint firstItem="RIi-i9-0lB" firstAttribute="top" secondItem="AOF-L9-UJN" secondAttribute="top" id="dli-mz-yq7"/>
+                                            <constraint firstItem="RIi-i9-0lB" firstAttribute="top" secondItem="AOF-L9-UJN" secondAttribute="top" id="0SY-FB-cvQ"/>
+                                            <constraint firstAttribute="bottom" secondItem="RIi-i9-0lB" secondAttribute="bottom" id="NsA-wD-u9w"/>
+                                            <constraint firstItem="RIi-i9-0lB" firstAttribute="leading" secondItem="AOF-L9-UJN" secondAttribute="leading" id="PCW-ba-cbn"/>
+                                            <constraint firstAttribute="trailing" secondItem="RIi-i9-0lB" secondAttribute="trailing" id="qbh-fY-YP9"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="imageView" destination="RIi-i9-0lB" id="Tpc-65-slE"/>
