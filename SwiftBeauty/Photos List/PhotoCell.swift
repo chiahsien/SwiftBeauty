@@ -10,16 +10,7 @@ import UIKit
 import Kingfisher
 
 final class PhotoCell: UICollectionViewCell {
-    private lazy var processor: ResizingImageProcessor = {
-        let scale = UIScreen.main.scale
-        let size = CGSize(
-            width: imageView.bounds.size.width * scale,
-            height: imageView.bounds.size.height * scale
-        )
-        return ResizingImageProcessor(referenceSize: size, mode: .aspectFill)
-    }()
     private lazy var options: KingfisherOptionsInfo = [
-        .processor(processor),
         .transition(.fade(0.2)),
         .backgroundDecode,
         .cacheOriginalImage
@@ -33,6 +24,6 @@ final class PhotoCell: UICollectionViewCell {
 
     func setImage(with url: URL) {
         imageView.kf.indicatorType = .activity
-        imageView.kf.setImage(with: url)
+        imageView.kf.setImage(with: url, options: options)
     }
 }
