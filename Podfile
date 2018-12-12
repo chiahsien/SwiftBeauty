@@ -7,5 +7,5 @@ target 'SwiftBeauty' do
   pod 'SwiftSoup'
   pod 'Kingfisher'
   pod 'EEZoomableImageView'
-  pod 'SwiftLint', '~> 0.27.0'
+  pod 'SwiftLint'
 end
