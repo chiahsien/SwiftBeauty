@@ -82,3 +82,4 @@ playground.xcworkspace
 
 
 # End of https://www.gitignore.io/api/xcode,macos,swift,objective-c
+*.xcuserstate
