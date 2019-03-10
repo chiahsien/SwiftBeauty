@@ -4,7 +4,7 @@
 //
 //  Created by Wei Wang on 2018/10/15.
 //
-//  Copyright (c) 2018年 Wei Wang <onevcat@gmail.com>
+//  Copyright (c) 2019 Wei Wang <onevcat@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,7 @@ public enum MemoryStorage {
     /// date. When retrieved, if the target item is already expired, it will be recognized as it does not
     /// exist in the storage. The `MemoryStorage` also contains a scheduled self clean task, to evict expired
     /// items from memory.
-    public class Backend<T: CacheCostCalculable>: StorageBackend {
+    public class Backend<T: CacheCostCalculable> {
         let storage = NSCache<NSString, StorageObject<T>>()
         var keys = Set<String>()
 

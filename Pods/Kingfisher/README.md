@@ -13,7 +13,7 @@
 <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/Kingfisher/sponsors/badge.svg" /></a>
 </p>
 
-Kingfisher is a powerful, pure-Swift library for downloading and caching images from the web. It provides you a chance to use a pure-Swift alternative in your next app.
+Kingfisher is a powerful, pure-Swift library for downloading and caching images from the web. It provides you a chance to use a pure-Swift way to work with remote images in your next app.
 
 ## Features
 
@@ -59,7 +59,7 @@ let processor = DownsamplingImageProcessor(size: imageView.size)
              >> RoundCornerImageProcessor(cornerRadius: 20)
 imageView.kf.indicatorType = .activity
 imageView.kf.setImage(
-    with: resource,
+    with: url,
     placeholder: UIImage(named: "placeholderImage"),
     options: [
         .processor(processor),
@@ -78,7 +78,7 @@ imageView.kf.setImage(
 }
 ```
 
-It is really a very common situation I will meet in my daily work. Think about how many lines you need to write if without Kingfisher. You will fall in love with it!
+It is really a very common situation I can meet in my daily work. Think about how many lines you need to write without Kingfisher. You will fall in love with it if you give it a try!
 
 ### Learn More
 
@@ -125,7 +125,7 @@ Follow and contact me on [Twitter](http://twitter.com/onevcat) or [Sina Weibo](h
 ## Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute]](https://github.com/onevcat/Kingfisher/blob/master/CONTRIBUTING.md).
-<a href="https://github.com/onevcat/Kingfisher/graphs/contributors"><img src="https://opencollective.com/kingfisher/contributors.svg?width=890" /></a>
+<a href="https://opencollective.com/kingfisher#backer"><img src="https://opencollective.com/kingfisher/contributors.svg?width=890" /></a>
 
 
 ## Backers

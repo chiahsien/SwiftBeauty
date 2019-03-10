@@ -4,7 +4,7 @@
 //
 //  Created by onevcat on 2018/09/28.
 //
-//  Copyright (c) 2018 Wei Wang <onevcat@gmail.com>
+//  Copyright (c) 2019 Wei Wang <onevcat@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@ import AppKit
 import UIKit
 #endif
 
+// MARK: - Deprecated
 extension KingfisherWrapper where Base: Image {
     @available(*, deprecated, message:
     "Will be removed soon. Pass parameters with `ImageCreatingOptions`, use `image(with:options:)` instead.")
@@ -70,12 +71,14 @@ public typealias CompletionHandler =
 public typealias ImageDownloaderCompletionHandler =
     ((_ image: Image?, _ error: NSError?, _ url: URL?, _ originalData: Data?) -> Void)
 
+// MARK: - Deprecated
 @available(*, deprecated, message: "Will be removed soon. Use `DownloadTask` to cancel a task.")
 extension RetrieveImageTask {
     @available(*, deprecated, message: "RetrieveImageTask.empty will be removed soon. Use `nil` to represent a no task.")
     public static let empty = RetrieveImageTask()
 }
 
+// MARK: - Deprecated
 extension KingfisherManager {
     /// Get an image with resource.
     /// If `.empty` is used as `options`, Kingfisher will seek the image in memory and disk first.
@@ -105,6 +108,7 @@ extension KingfisherManager {
     }
 }
 
+// MARK: - Deprecated
 extension ImageDownloader {
     @available(*, deprecated, message: "Use `Result` based callback instead.")
     @discardableResult
@@ -136,6 +140,7 @@ public final class RetrieveImageTask {
 public typealias ImageDownloaderProgressBlock = DownloadProgressBlock
 
 #if !os(watchOS)
+// MARK: - Deprecated
 extension KingfisherWrapper where Base: ImageView {
     @available(*, deprecated, message: "Use `Result` based callback instead.")
     @discardableResult
@@ -159,6 +164,7 @@ extension KingfisherWrapper where Base: ImageView {
 #endif
 
 #if canImport(UIKit) && !os(watchOS)
+// MARK: - Deprecated
 extension KingfisherWrapper where Base: UIButton {
     @available(*, deprecated, message: "Use `Result` based callback instead.")
     @discardableResult
@@ -218,6 +224,7 @@ extension KingfisherWrapper where Base: UIButton {
 
 #if os(watchOS)
 import WatchKit
+// MARK: - Deprecated
 extension KingfisherWrapper where Base: WKInterfaceImage {
     @available(*, deprecated, message: "Use `Result` based callback instead.")
     @discardableResult
@@ -246,6 +253,7 @@ extension KingfisherWrapper where Base: WKInterfaceImage {
 #endif
 
 #if os(macOS)
+// MARK: - Deprecated
 extension KingfisherWrapper where Base: NSButton {
     @discardableResult
     @available(*, deprecated, message: "Use `Result` based callback instead.")
@@ -297,6 +305,7 @@ extension KingfisherWrapper where Base: NSButton {
 }
 #endif
 
+// MARK: - Deprecated
 extension ImageCache {
     /// The largest cache cost of memory cache. The total cost is pixel count of
     /// all cached images in memory.
@@ -383,7 +392,12 @@ extension ImageCache {
             callbackQueue: .dispatch((options ?? .empty).callbackDispatchQueue))
         {
             result in
-            completionHandler?(result.value?.image, result.value?.cacheType ?? .none)
+            do {
+                let value = try result.get()
+                completionHandler?(value.image, value.cacheType)
+            } catch {
+                completionHandler?(nil, .none)
+            }
         }
     }
 
@@ -395,9 +409,7 @@ extension ImageCache {
         get { return diskStorage.config.expiration.timeInterval }
         set { diskStorage.config.expiration = .seconds(newValue) }
     }
-}
 
-extension ImageCache {
     @available(*, deprecated, message: "Use `Result` based callback instead.")
     open func store(_ image: Image,
                     original: Data? = nil,
@@ -423,12 +435,14 @@ extension ImageCache {
     @available(*, deprecated, message: "Use the `Result`-based `calculateDiskStorageSize` instead.")
     open func calculateDiskCacheSize(completion handler: @escaping ((_ size: UInt) -> Void)) {
         calculateDiskStorageSize { result in
-            handler(result.value ?? 0)
+            let size: UInt? = try? result.get()
+            handler(size ?? 0)
         }
     }
 }
 
-public extension Collection where Iterator.Element == KingfisherOptionsInfoItem {
+// MARK: - Deprecated
+extension Collection where Iterator.Element == KingfisherOptionsInfoItem {
     /// The queue of callbacks should happen from Kingfisher.
     @available(*, deprecated, message: "Use `callbackQueue` instead.", renamed: "callbackQueue")
     public var callbackDispatchQueue: DispatchQueue {
@@ -445,7 +459,8 @@ public let KingfisherErrorDomain = "com.onevcat.Kingfisher.Error"
 message: "Use `.invalidHTTPStatusCode` or `isInvalidResponseStatusCode` of `KingfisherError` instead for the status code.")
 public let KingfisherErrorStatusCodeKey = "statusCode"
 
-public extension Collection where Iterator.Element == KingfisherOptionsInfoItem {
+// MARK: - Deprecated
+extension Collection where Iterator.Element == KingfisherOptionsInfoItem {
     /// The target `ImageCache` which is used.
     @available(*, deprecated,
     message: "Create a `KingfisherParsedOptionsInfo` from `KingfisherOptionsInfo` and use `targetCache` instead.")
@@ -556,7 +571,7 @@ public extension Collection where Iterator.Element == KingfisherOptionsInfoItem 
     /// The `ImageDownloadRequestModifier` will be used before sending a download request.
     @available(*, deprecated,
     message: "Create a `KingfisherParsedOptionsInfo` from `KingfisherOptionsInfo` and use `requestModifier` instead.")
-    public var modifier: ImageDownloadRequestModifier {
+    public var modifier: ImageDownloadRequestModifier? {
         return KingfisherParsedOptionsInfo(Array(self)).requestModifier
     }
 
@@ -570,7 +585,7 @@ public extension Collection where Iterator.Element == KingfisherOptionsInfoItem 
     /// `ImageModifier` for modifying right before the image is displayed.
     @available(*, deprecated,
     message: "Create a `KingfisherParsedOptionsInfo` from `KingfisherOptionsInfo` and use `imageModifier` instead.")
-    public var imageModifier: ImageModifier {
+    public var imageModifier: ImageModifier? {
         return KingfisherParsedOptionsInfo(Array(self)).imageModifier
     }
 
@@ -623,4 +638,17 @@ public extension Collection where Iterator.Element == KingfisherOptionsInfoItem 
     public var loadDiskFileSynchronously: Bool {
         return KingfisherParsedOptionsInfo(Array(self)).loadDiskFileSynchronously
     }
+}
+
+/// The default modifier.
+/// It does nothing and returns the image as is.
+@available(*, deprecated, message: "Use `nil` in KingfisherOptionsInfo to indicate no modifier.")
+public struct DefaultImageModifier: ImageModifier {
+
+    /// A default `DefaultImageModifier` which can be used everywhere.
+    public static let `default` = DefaultImageModifier()
+    private init() {}
+
+    /// Modifies an input `Image`. See `ImageModifier` protocol for more.
+    public func modify(_ image: Image) -> Image { return image }
 }

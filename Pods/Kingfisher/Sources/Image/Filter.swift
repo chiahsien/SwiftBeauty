@@ -4,7 +4,7 @@
 //
 //  Created by Wei Wang on 2016/08/31.
 //
-//  Copyright (c) 2018 Wei Wang <onevcat@gmail.com>
+//  Copyright (c) 2019 Wei Wang <onevcat@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-
-
 import CoreImage
-import Accelerate
 
 // Reuse the same CI Context for all CI drawing.
 private let ciContext = CIContext(options: nil)

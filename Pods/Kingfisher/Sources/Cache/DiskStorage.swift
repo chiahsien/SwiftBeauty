@@ -4,7 +4,7 @@
 //
 //  Created by Wei Wang on 2018/10/15.
 //
-//  Copyright (c) 2018年 Wei Wang <onevcat@gmail.com>
+//  Copyright (c) 2019 Wei Wang <onevcat@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -38,12 +38,12 @@ public enum DiskStorage {
     /// You can config a `DiskStorage.Backend` in its initializer by passing a `DiskStorage.Config` value.
     /// or modifying the `config` property after it being created. `DiskStorage` will use file's attributes to keep
     /// track of a file for its expiration or size limitation.
-    public class Backend<T: DataTransformable>: StorageBackend {
+    public class Backend<T: DataTransformable> {
         /// The config used for this disk storage.
         public var config: Config
 
         // The final storage URL on disk, with `name` and `cachePathBlock` considered.
-        let directoryURL: URL
+        public let directoryURL: URL
 
         let metaChangingQueue: DispatchQueue
 

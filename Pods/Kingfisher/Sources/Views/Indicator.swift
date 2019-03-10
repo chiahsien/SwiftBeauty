@@ -4,7 +4,7 @@
 //
 //  Created by João D. Moreira on 30/08/16.
 //
-//  Copyright (c) 2018 Wei Wang <onevcat@gmail.com>
+//  Copyright (c) 2019 Wei Wang <onevcat@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -50,8 +50,6 @@ public enum IndicatorType {
     case custom(indicator: Indicator)
 }
 
-// MARK: - Indicator Protocol
-
 /// An indicator type which can be used to show the download task is in progress.
 public protocol Indicator {
     
@@ -76,7 +74,6 @@ extension Indicator {
     public var centerOffset: CGPoint { return .zero }
 }
 
-// MARK: - ActivityIndicator
 // Displays a NSProgressIndicator / UIActivityIndicatorView
 final class ActivityIndicator: Indicator {
 

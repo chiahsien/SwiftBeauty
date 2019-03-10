@@ -4,7 +4,7 @@
 //
 //  Created by Wei Wang on 2016/08/26.
 //
-//  Copyright (c) 2018 Wei Wang <onevcat@gmail.com>
+//  Copyright (c) 2019 Wei Wang <onevcat@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -104,7 +104,7 @@ extension ImageProcessor {
     }
 }
 
-public extension ImageProcessor {
+extension ImageProcessor {
     
     /// Appends an `ImageProcessor` to another. The identifier of the new `ImageProcessor`
     /// will be "\(self.identifier)|>\(another.identifier)".

@@ -4,7 +4,7 @@
 //
 //  Created by onevcat on 2018/09/28.
 //
-//  Copyright (c) 2018 Wei Wang <onevcat@gmail.com>
+//  Copyright (c) 2019 Wei Wang <onevcat@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ import UIKit
 
 // MARK: - Image Transforming
 extension KingfisherWrapper where Base: Image {
-    // MARK: - Blend Mode
+    // MARK: Blend Mode
     /// Create image from `base` image and apply blend mode.
     ///
     /// - parameter blendMode:       The blend mode of creating image.
@@ -68,7 +68,7 @@ extension KingfisherWrapper where Base: Image {
     #endif
     
     #if os(macOS)
-    // MARK: - Compositing Operation
+    // MARK: Compositing
     /// Creates image from `base` image and apply compositing operation.
     ///
     /// - Parameters:
@@ -98,7 +98,7 @@ extension KingfisherWrapper where Base: Image {
     }
     #endif
     
-    // MARK: - Round Corner
+    // MARK: Round Corner
     /// Creates a round corner image from on `base` image.
     ///
     /// - Parameters:
@@ -172,7 +172,7 @@ extension KingfisherWrapper where Base: Image {
     }
     #endif
     
-    // MARK: - Resize
+    // MARK: Resizing
     /// Resizes `base` image to an image with new size.
     ///
     /// - Parameter size: The target size in point.
@@ -208,7 +208,8 @@ extension KingfisherWrapper where Base: Image {
         let newSize = size.kf.resize(to: targetSize, for: contentMode)
         return resize(to: newSize)
     }
-    
+
+    // MARK: Cropping
     /// Crops `base` image to a new size with a given anchor.
     ///
     /// - Parameters:
@@ -233,7 +234,7 @@ extension KingfisherWrapper where Base: Image {
         return KingfisherWrapper.image(cgImage: image, scale: scale, refImage: base)
     }
     
-    // MARK: - Blur
+    // MARK: Blur
     /// Creates an image with blur effect based on `base` image.
     ///
     /// - Parameter radius: The blur radius should be used when creating blur effect.
@@ -326,7 +327,7 @@ extension KingfisherWrapper where Base: Image {
         return blurredImage
     }
     
-    // MARK: - Overlay
+    // MARK: Overlay
     /// Creates an image from `base` image with a color overlay layer.
     ///
     /// - Parameters:
@@ -364,7 +365,7 @@ extension KingfisherWrapper where Base: Image {
         }
     }
     
-    // MARK: - Tint
+    // MARK: Tint
     /// Creates an image from `base` image with a color tint.
     ///
     /// - Parameter color: The color should be used to tint `base`
@@ -377,7 +378,7 @@ extension KingfisherWrapper where Base: Image {
         #endif
     }
     
-    // MARK: - Color Control
+    // MARK: Color Control
     
     /// Create an image from `self` with color control.
     ///
@@ -411,7 +412,7 @@ extension KingfisherWrapper where Base: Image {
     }
 }
 
-// MARK: - Decode
+// MARK: - Decoding Image
 extension KingfisherWrapper where Base: Image {
     
     /// Returns the decoded image of the `base` image. It will draw the image in a plain context and return the data
@@ -523,4 +524,78 @@ extension KingfisherWrapper where Base: Image {
         }
     }
     #endif
+}
+
+extension CGImage: KingfisherCompatible {}
+/// High Performance Image Resizing
+/// @see https://nshipster.com/image-resizing/
+extension KingfisherWrapper where Base: CGImage {
+    var size: CGSize {
+        return CGSize(width: CGFloat(base.width), height: CGFloat(base.height))
+    }
+
+    /// Resizes `base` CGImage to a CGImage of new size, respecting the given content mode.
+    ///
+    /// - Parameters:
+    ///   - targetSize: The target size in point.
+    ///   - contentMode: Content mode of output image should be.
+    /// - Returns: A CGImage with new size.
+    #if os(iOS) || os(tvOS)
+    public func resize(to size: CGSize, for contentMode: UIView.ContentMode) -> CGImage {
+        switch contentMode {
+        case .scaleAspectFit:
+            return resize(to: size, for: .aspectFit)
+        case .scaleAspectFill:
+            return resize(to: size, for: .aspectFill)
+        default:
+            return resize(to: size)
+        }
+    }
+    #endif
+
+    // MARK: - Resize
+    /// Resizes `base` CGImage to a CGImage with new size.
+    ///
+    /// - Parameter size: The target size in point.
+    /// - Returns: A CGImage with new size.
+    public func resize(to size: CGSize) -> CGImage {
+        let alphaInfo = base.alphaInfo.rawValue & CGBitmapInfo.alphaInfoMask.rawValue
+        var hasAlpha = false
+        if alphaInfo == CGImageAlphaInfo.premultipliedLast.rawValue
+            || alphaInfo == CGImageAlphaInfo.premultipliedFirst.rawValue
+            || alphaInfo == CGImageAlphaInfo.first.rawValue
+            || alphaInfo == CGImageAlphaInfo.last.rawValue {
+            hasAlpha = true
+        }
+
+        var bitmapInfo = CGImageByteOrderInfo.order32Little.rawValue
+        bitmapInfo |= hasAlpha ? CGImageAlphaInfo.premultipliedFirst.rawValue : CGImageAlphaInfo.noneSkipFirst.rawValue
+
+        guard let context = CGContext(data: nil,
+                                      width: Int(size.width),
+                                      height: Int(size.height),
+                                      bitsPerComponent: base.bitsPerComponent,
+                                      bytesPerRow: base.bytesPerRow,
+                                      space: base.colorSpace ?? CGColorSpaceCreateDeviceRGB(),
+                                      bitmapInfo: bitmapInfo) else
+        {
+            return base
+        }
+
+        let rect = CGRect(origin: .zero, size: size)
+        context.interpolationQuality = .high
+        context.draw(base, in: rect)
+        return context.makeImage() ?? base
+    }
+
+    /// Resizes `base` CGImage to a CGImage of new size, respecting the given content mode.
+    ///
+    /// - Parameters:
+    ///   - targetSize: The target size in point.
+    ///   - contentMode: Content mode of output image should be.
+    /// - Returns: A CGImage with new size.
+    public func resize(to targetSize: CGSize, for contentMode: ContentMode) -> CGImage {
+        let newSize = size.kf.resize(to: targetSize, for: contentMode)
+        return resize(to: newSize)
+    }
 }

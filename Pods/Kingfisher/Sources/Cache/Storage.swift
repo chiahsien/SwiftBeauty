@@ -4,7 +4,7 @@
 //
 //  Created by Wei Wang on 2018/10/15.
 //
-//  Copyright (c) 2018年 Wei Wang <onevcat@gmail.com>
+//  Copyright (c) 2019 Wei Wang <onevcat@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -71,19 +71,6 @@ public enum StorageExpiration {
         case .expired: return -(.infinity)
         }
     }
-}
-
-protocol StorageBackend {
-    associatedtype ValueType
-    associatedtype KeyType
-    func store(
-        value: ValueType,
-        forKey key: KeyType,
-        expiration: StorageExpiration?) throws
-    func value(forKey key: KeyType) throws -> ValueType?
-    func remove(forKey key: String) throws
-    func removeAll() throws
-    func isCached(forKey key: String) -> Bool
 }
 
 /// Represents types which cost in memory can be calculated.

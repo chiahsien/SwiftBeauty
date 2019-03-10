@@ -4,7 +4,7 @@
 //
 //  Created by Tieme van Veen on 28/08/2017.
 //
-//  Copyright (c) 2018 Wei Wang <onevcat@gmail.com>
+//  Copyright (c) 2019 Wei Wang <onevcat@gmail.com>
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,6 @@ import AppKit
 #else
 import UIKit
 #endif
-
 
 /// Represents a placeholder type which could be set while loading as well as
 /// loading finished without getting an image.
