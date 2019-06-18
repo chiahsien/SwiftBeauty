@@ -3,7 +3,7 @@ PODS:
   - EEZoomableImageView (0.1.2)
   - Kingfisher (5.6.0)
   - SwiftLint (0.29.1)
-  - SwiftSoup (1.7.4)
+  - SwiftSoup (2.2.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -34,7 +34,7 @@ SPEC CHECKSUMS:
   EEZoomableImageView: 99b014a16d8896b44c7cdc46235cf904915ef578
   Kingfisher: 1a50df6880a60bae26f3e21a0df3d17b892f5e0b
   SwiftLint: 6772320e40b52049053a518c17db9b0634a0b45a
-  SwiftSoup: 92f5b348c131aed8af04f4326db1579ab19fa08c
+  SwiftSoup: 230991361c5ba249d140161860a3864a28b63860
 
 PODFILE CHECKSUM: 38bd7357b17cd9d78bdc11195633ab504925da0c
 
