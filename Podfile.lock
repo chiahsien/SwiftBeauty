@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.8.1)
+  - Alamofire (4.8.2)
   - EEZoomableImageView (0.1.2)
   - Kingfisher (5.6.0)
   - SwiftLint (0.29.1)
@@ -30,7 +30,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/itok/EEZoomableImageView.git
 
 SPEC CHECKSUMS:
-  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   EEZoomableImageView: 99b014a16d8896b44c7cdc46235cf904915ef578
   Kingfisher: 1a50df6880a60bae26f3e21a0df3d17b892f5e0b
   SwiftLint: 6772320e40b52049053a518c17db9b0634a0b45a
