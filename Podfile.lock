@@ -7,7 +7,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
-  - EEZoomableImageView
+  - EEZoomableImageView (from `https://github.com/itok/EEZoomableImageView.git`, branch `swift5`)
   - Kingfisher
   - SwiftLint
   - SwiftSoup
@@ -15,18 +15,27 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
-    - EEZoomableImageView
     - Kingfisher
     - SwiftLint
     - SwiftSoup
 
+EXTERNAL SOURCES:
+  EEZoomableImageView:
+    :branch: swift5
+    :git: https://github.com/itok/EEZoomableImageView.git
+
+CHECKOUT OPTIONS:
+  EEZoomableImageView:
+    :commit: b6da57e87d02dd3728370f43e33c1e97c2121b07
+    :git: https://github.com/itok/EEZoomableImageView.git
+
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
-  EEZoomableImageView: 17389e2a7d03fc861fc9d044f06907777edd8970
+  EEZoomableImageView: 99b014a16d8896b44c7cdc46235cf904915ef578
   Kingfisher: 07067cfacf371117330dceb4b4b8f5c4b691ab42
   SwiftLint: 6772320e40b52049053a518c17db9b0634a0b45a
   SwiftSoup: 92f5b348c131aed8af04f4326db1579ab19fa08c
 
-PODFILE CHECKSUM: af8a7a6eb26aa3a64c1102b74b01c94ab9cfb816
+PODFILE CHECKSUM: 38bd7357b17cd9d78bdc11195633ab504925da0c
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1
