@@ -6,6 +6,6 @@ target 'SwiftBeauty' do
   pod 'Alamofire'
   pod 'SwiftSoup'
   pod 'Kingfisher'
-  pod 'EEZoomableImageView'
+  pod 'EEZoomableImageView', :git => 'https://github.com/itok/EEZoomableImageView.git', :branch => 'swift5'
   pod 'SwiftLint'
 end
