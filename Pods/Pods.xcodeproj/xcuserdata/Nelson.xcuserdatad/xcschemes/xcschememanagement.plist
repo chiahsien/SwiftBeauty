@@ -3,39 +3,39 @@
 <plist version="1.0">
 <dict>
 	<key>SchemeUserState</key>
-	<dict/>
-	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2B81054F8BDC155E06BDCE2C4E47AE09</key>
+		<key>Alamofire.xcscheme</key>
 		<dict>
-			<key>primary</key>
-			<true/>
+			<key>isShown</key>
+			<false/>
 		</dict>
-		<key>3383968E74B5371B20BB519B170DC7FD</key>
+		<key>EEZoomableImageView.xcscheme</key>
 		<dict>
-			<key>primary</key>
-			<true/>
+			<key>isShown</key>
+			<false/>
 		</dict>
-		<key>5AAC75742B4BA4B3D705092915C43A3C</key>
+		<key>Kingfisher.xcscheme</key>
 		<dict>
-			<key>primary</key>
-			<true/>
+			<key>isShown</key>
+			<false/>
 		</dict>
-		<key>81F587937DED7BB159CCDE0D2698F8A4</key>
+		<key>Pods-SwiftBeauty.xcscheme</key>
 		<dict>
-			<key>primary</key>
-			<true/>
+			<key>isShown</key>
+			<false/>
 		</dict>
-		<key>8A926DB136E3DD90CB29DF2DA7399DA2</key>
+		<key>SwiftLint.xcscheme</key>
 		<dict>
-			<key>primary</key>
-			<true/>
+			<key>isShown</key>
+			<false/>
 		</dict>
-		<key>9F62FB50D468A49DCB02DD5FAD24A1B3</key>
+		<key>SwiftSoup.xcscheme</key>
 		<dict>
-			<key>primary</key>
-			<true/>
+			<key>isShown</key>
+			<false/>
 		</dict>
 	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict/>
 </dict>
 </plist>

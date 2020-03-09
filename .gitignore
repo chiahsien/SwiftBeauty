@@ -1,5 +1,6 @@
 
-# Created by https://www.gitignore.io/api/xcode,macos,swift,objective-c
+# Created by https://www.gitignore.io/api/xcode,macos,swift,cocoapods,objective-c
+# Edit at https://www.gitignore.io/?templates=xcode,macos,swift,cocoapods,objective-c
 
 ### macOS ###
 # General
@@ -60,26 +61,59 @@ xcuserdata/
 *.dSYM.zip
 *.dSYM
 
+# CocoaPods
+# We recommend against adding the Pods directory to your .gitignore. However
+# you should judge for yourself, the pros and cons are mentioned at:
+# https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
+# Pods/
+# Add this line if you want to avoid checking in source code from the Xcode workspace
+# *.xcworkspace
+
+# Carthage
+# Add this line if you want to avoid checking in source code from Carthage dependencies.
+# Carthage/Checkouts
+
+Carthage/Build
+
+# fastlane
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/#source-control
+
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
 
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
 
 # Swift Package Manager
-#
 # Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
 # Packages/
 # Package.pins
 # Package.resolved
 .build/
+# Add this line if you want to avoid checking in Xcode SPM integration.
+# .swiftpm/xcode
 
-### Xcode Patch ###
+## User settings
+
+## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
+
+## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
+
+## Xcode Patch
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
 
+### Xcode Patch ###
+**/xcshareddata/WorkspaceSettings.xcsettings
 
-# End of https://www.gitignore.io/api/xcode,macos,swift,objective-c
-*.xcuserstate
+# End of https://www.gitignore.io/api/xcode,macos,swift,cocoapods,objective-c

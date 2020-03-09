@@ -108,6 +108,13 @@ public enum DiskStorage {
             }
 
             let fileURL = cacheFileURL(forKey: key)
+            do {
+                try data.write(to: fileURL)
+            } catch {
+                throw KingfisherError.cacheError(
+                    reason: .cannotCreateCacheFile(fileURL: fileURL, key: key, data: data, error: error)
+                )
+            }
 
             let now = Date()
             let attributes: [FileAttributeKey : Any] = [
@@ -116,14 +123,30 @@ public enum DiskStorage {
                 // The estimated expiration date.
                 .modificationDate: expiration.estimatedExpirationSinceNow.fileAttributeDate
             ]
-            config.fileManager.createFile(atPath: fileURL.path, contents: data, attributes: attributes)
+            do {
+                try config.fileManager.setAttributes(attributes, ofItemAtPath: fileURL.path)
+            } catch {
+                try? config.fileManager.removeItem(at: fileURL)
+                throw KingfisherError.cacheError(
+                    reason: .cannotSetCacheFileAttribute(
+                        filePath: fileURL.path,
+                        attributes: attributes,
+                        error: error
+                    )
+                )
+            }
         }
 
-        func value(forKey key: String) throws -> T? {
-            return try value(forKey: key, referenceDate: Date(), actuallyLoad: true)
+        func value(forKey key: String, extendingExpiration: ExpirationExtending = .cacheTime) throws -> T? {
+            return try value(forKey: key, referenceDate: Date(), actuallyLoad: true, extendingExpiration: extendingExpiration)
         }
 
-        func value(forKey key: String, referenceDate: Date, actuallyLoad: Bool) throws -> T? {
+        func value(
+            forKey key: String,
+            referenceDate: Date,
+            actuallyLoad: Bool,
+            extendingExpiration: ExpirationExtending) throws -> T?
+        {
             let fileManager = config.fileManager
             let fileURL = cacheFileURL(forKey: key)
             let filePath = fileURL.path
@@ -148,7 +171,9 @@ public enum DiskStorage {
             do {
                 let data = try Data(contentsOf: fileURL)
                 let obj = try T.fromData(data)
-                metaChangingQueue.async { meta.extendExpiration(with: fileManager) }
+                metaChangingQueue.async {
+                    meta.extendExpiration(with: fileManager, extendingExpiration: extendingExpiration)
+                }
                 return obj
             } catch {
                 throw KingfisherError.cacheError(reason: .cannotLoadDataFromDisk(url: fileURL, error: error))
@@ -161,10 +186,13 @@ public enum DiskStorage {
 
         func isCached(forKey key: String, referenceDate: Date) -> Bool {
             do {
-                guard let _ = try value(forKey: key, referenceDate: referenceDate, actuallyLoad: false) else {
-                    return false
-                }
-                return true
+                let result = try value(
+                    forKey: key,
+                    referenceDate: referenceDate,
+                    actuallyLoad: false,
+                    extendingExpiration: .none
+                )
+                return result != nil
             } catch {
                 return false
             }
@@ -190,7 +218,15 @@ public enum DiskStorage {
             }
         }
 
-        func cacheFileURL(forKey key: String) -> URL {
+        /// The URL of the cached file with a given computed `key`.
+        ///
+        /// - Note:
+        /// This method does not guarantee there is an image already cached in the returned URL. It just gives your
+        /// the URL that the image should be if it exists in disk storage, with the give key.
+        ///
+        /// - Parameter key: The final computed key used when caching the image. Please note that usually this is not
+        /// the `cacheKey` of an image `Source`. It is the computed key with processor identifier considered.
+        public func cacheFileURL(forKey key: String) -> URL {
             let fileName = cacheFileName(forKey: key)
             return directoryURL.appendingPathComponent(fileName)
         }
@@ -396,19 +432,32 @@ extension DiskStorage {
             return estimatedExpirationDate?.isPast(referenceDate: referenceDate) ?? true
         }
         
-        func extendExpiration(with fileManager: FileManager) {
+        func extendExpiration(with fileManager: FileManager, extendingExpiration: ExpirationExtending) {
             guard let lastAccessDate = lastAccessDate,
                   let lastEstimatedExpiration = estimatedExpirationDate else
             {
                 return
             }
-            
-            let originalExpiration: StorageExpiration =
-                .seconds(lastEstimatedExpiration.timeIntervalSince(lastAccessDate))
-            let attributes: [FileAttributeKey : Any] = [
-                .creationDate: Date().fileAttributeDate,
-                .modificationDate: originalExpiration.estimatedExpirationSinceNow.fileAttributeDate
-            ]
+
+            let attributes: [FileAttributeKey : Any]
+
+            switch extendingExpiration {
+            case .none:
+                // not extending expiration time here
+                return
+            case .cacheTime:
+                let originalExpiration: StorageExpiration =
+                    .seconds(lastEstimatedExpiration.timeIntervalSince(lastAccessDate))
+                attributes = [
+                    .creationDate: Date().fileAttributeDate,
+                    .modificationDate: originalExpiration.estimatedExpirationSinceNow.fileAttributeDate
+                ]
+            case .expirationTime(let expirationTime):
+                attributes = [
+                    .creationDate: Date().fileAttributeDate,
+                    .modificationDate: expirationTime.estimatedExpirationSinceNow.fileAttributeDate
+                ]
+            }
 
             try? fileManager.setAttributes(attributes, ofItemAtPath: url.path)
         }
