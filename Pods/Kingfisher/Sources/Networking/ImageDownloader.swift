@@ -34,7 +34,7 @@ import UIKit
 public struct ImageLoadingResult {
 
     /// The downloaded image.
-    public let image: Image
+    public let image: KFCrossPlatformImage
 
     /// Original URL of the image request.
     public let url: URL?
@@ -186,15 +186,24 @@ open class ImageDownloader {
             }
         }
         sessionDelegate.onDidDownloadData.delegate(on: self) { (self, task) in
-            guard let url = task.task.originalRequest?.url else {
+            guard let url = task.originalURL else {
                 return task.mutableData
             }
             return (self.delegate ?? self).imageDownloader(self, didDownload: task.mutableData, for: url)
         }
     }
 
+    // MARK: Dowloading Task
+    /// Downloads an image with a URL and option. Invoked internally by Kingfisher. Subclasses must invoke super.
+    ///
+    /// - Parameters:
+    ///   - url: Target URL.
+    ///   - options: The options could control download behavior. See `KingfisherOptionsInfo`.
+    ///   - completionHandler: Called when the download progress finishes. This block will be called in the queue
+    ///                        defined in `.callbackQueue` in `options` parameter.
+    /// - Returns: A downloading task. You could call `cancel` on it to stop the download task.
     @discardableResult
-    func downloadImage(
+    open func downloadImage(
         with url: URL,
         options: KingfisherParsedOptionsInfo,
         completionHandler: ((Result<ImageLoadingResult, KingfisherError>) -> Void)? = nil) -> DownloadTask?
@@ -312,7 +321,6 @@ open class ImageDownloader {
         return downloadTask
     }
 
-    // MARK: Dowloading Task
     /// Downloads an image with a URL and option.
     ///
     /// - Parameters:

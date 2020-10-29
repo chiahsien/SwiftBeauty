@@ -19,6 +19,7 @@
   },
   "source_files": "EEZoomableImageView/EEZoomableImageView/*.{swift}",
   "frameworks": "UIKit",
-  "swift_version": "5.0",
-  "requires_arc": true
+  "swift_versions": "5.0",
+  "requires_arc": true,
+  "swift_version": "5.0"
 }
