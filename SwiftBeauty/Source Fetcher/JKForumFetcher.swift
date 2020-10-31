@@ -55,7 +55,7 @@ class JKForumFetcher {
     // MARK: - Public Methods
 
     func fetchPosts(with forumID: String, at page: UInt, completionHandler: @escaping (FetchResult<[Post]>) -> Void) {
-        let path = "https://www.jkforum.net/forum.php?mod=forumdisplay&fid=\(forumID)&mobile=yes&page=\(page)"
+        let path = "https://www.jkforum.net/forum-\(forumID)-\(page).html"
         Alamofire.request(path).validate().responseHTMLDocument { response in
             guard case let .success(document) = response.result else {
                 let result: FetchResult<[Post]> = .failure(response.result.error! as! CustomError)
@@ -96,26 +96,27 @@ class JKForumFetcher {
     // MARK: - Private Methods
 
     private func parse(_ document: Document) throws -> [Post] {
-        let elements = try document.select("ul#alist a")
         let baseURL = URL(string: "https://www.jkforum.net/")!
-
+        let elements = try document.select("ul#waterfall > li > div.c > a")
         let posts = elements.array().compactMap { e -> Post? in
             guard let href = try? e.attr("href"),
-                let image = try? e.select("img").first(),
-                let title = try? e.select("h1").first()
-                else {
-                    return nil
+                  let title = try? e.attr("title"),
+                  let style = try? e.attr("style")
+            else {
+                return nil
             }
-            guard let t = try? title!.text(),
-                let src = try? image!.attr("src")
-                else {
-                    return nil
+            guard let regex = try? NSRegularExpression(pattern: "https?:\\/\\/.+\\.(jpg|png)", options: .caseInsensitive),
+                  let result = regex.firstMatch(in: style, options: [], range: NSRange(location: 0, length: style.count))
+            else {
+                return nil
             }
-            let post = Post(title: t,
-                            coverURL: URL(string: "\(src)", relativeTo: baseURL)!,
-                            url: URL(string: "\(href)", relativeTo: baseURL)!)
+            let image = String(style[Range(result.range, in: style)!])
+            let post = Post(title: title,
+                            coverURL: URL(string: image, relativeTo: baseURL)!,
+                            url: URL(string: href, relativeTo: baseURL)!)
             return post
         }
+
         return posts
     }
 

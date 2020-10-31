@@ -68,20 +68,29 @@ final class TimLiaoFetcher: SourceFetchable {
 
         let posts = elements.array().compactMap { e -> Post? in
             guard let image = try? e.select("img").first(),
-                let title = try? e.parent()?.parent()?.select("h2.subject > a").first()
+                  let title = try? e.parent()?.parent()?.select("h2.subject > a").first()
             else {
                 return nil
             }
             guard let t = try? title!.text(),
-                let src = try? image!.attr("src"),
-                let href = try? title!.attr("href")
+                  let href = try? title!.attr("href")
             else {
                 return nil
             }
-            let post = Post(title: t,
-                            coverURL: URL(string: "http://www.timliao.com/bbs/\(src)")!,
-                            url: URL(string: "http://www.timliao.com/bbs/\(href)")!)
-            return post
+
+            if let src = try? image!.attr("data-src"), src != "" {
+                let post = Post(title: t,
+                                coverURL: URL(string: "http://www.timliao.com/bbs/\(src)")!,
+                                url: URL(string: "http://www.timliao.com/bbs/\(href)")!)
+                return post
+            } else if let src = try? image!.attr("src"), src != "" {
+                let post = Post(title: t,
+                                coverURL: URL(string: "http://www.timliao.com/bbs/\(src)")!,
+                                url: URL(string: "http://www.timliao.com/bbs/\(href)")!)
+                return post
+            } else {
+                return nil
+            }
         }
         return posts
     }
@@ -94,7 +103,7 @@ final class TimLiaoFetcher: SourceFetchable {
             guard let src = try? e.attr("src") else {
                 return nil
             }
-            return URL(string: src)
+            return URL(string: src, relativeTo: URL(string: "http://www.timliao.com/bbs/"))
         }
         return urls
     }
