@@ -19,6 +19,8 @@ final class PhotosViewController: UIViewController {
     // MARK: - Public Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupLayout()
+
         title = viewModel.title
         viewModel.fetchPhotos { result in
             switch result {
@@ -37,6 +39,18 @@ final class PhotosViewController: UIViewController {
         if !collectionView.indexPathsForVisibleItems.contains(indexPath) {
             collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .top, animated: animated)
         }
+    }
+
+    // MARK: Private Methods
+    private func setupLayout() {
+        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.estimatedItemSize = .zero
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+
+        let itemWidth = floor((view.bounds.width - 10 - layout.sectionInset.left - layout.sectionInset.right) / 2)
+        let itemHeight = floor(itemWidth * 4 / 3)
+        layout.itemSize = CGSize(width: itemWidth, height: itemHeight)
     }
 }
 
