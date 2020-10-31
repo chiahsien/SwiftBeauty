@@ -71,6 +71,7 @@ extension RootCoordinator: PhotosViewModelDelegate {
 
     func viewModel(_ viewModel: PhotosViewModel, didSelect index: Int, for data: [URL]) {
         let vc = createPhotoBrowserViewController()
+        vc.modalPresentationStyle = .fullScreen
         navigation.present(vc, animated: true) {
             vc.load(data, scrollTo: index)
         }
