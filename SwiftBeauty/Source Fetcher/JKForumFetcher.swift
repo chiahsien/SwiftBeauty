@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 import SwiftSoup
 
 final class JKForumWesternFetcher: JKForumFetcher, SourceFetchable {
@@ -56,41 +55,57 @@ class JKForumFetcher {
 
     func fetchPosts(with forumID: String, at page: UInt, completionHandler: @escaping (FetchResult<[Post]>) -> Void) {
         let path = "https://www.jkforum.net/forum-\(forumID)-\(page).html"
-        Alamofire.request(path).validate().responseHTMLDocument { response in
-            guard case let .success(document) = response.result else {
-                let result: FetchResult<[Post]> = .failure(response.result.error! as! CustomError)
+        let task = URLSession.shared.dataTask(with: URL(string: path)!) { (data, _, error) in
+            guard let data = data, error == nil else {
+                let result = FetchResult<[Post]>.failure(.networkError(error!))
+                completionHandler(result)
+                return
+            }
+
+            guard let html = String(data: data, encoding: .utf8) else {
+                let result = FetchResult<[Post]>.failure(.invalidData(data))
                 completionHandler(result)
                 return
             }
 
             do {
+                let document: Document = try SwiftSoup.parse(html)
                 let posts: [Post] = try self.parse(document)
                 let result: FetchResult<[Post]> = (posts.isEmpty ? .failure(.emptyData) : .success(posts))
                 completionHandler(result)
             } catch {
-                let result: FetchResult<[Post]> = .failure(.parse(error: error))
+                let result: FetchResult<[Post]> = .failure(.parseError(error))
                 completionHandler(result)
             }
         }
+        task.resume()
     }
 
     func fetchPhotos(at url: URL, completionHandler: @escaping (FetchResult<[URL]>) -> Void) {
-        Alamofire.request(url).validate().responseHTMLDocument { response in
-            guard case let .success(document) = response.result else {
-                let result: FetchResult<[URL]> = .failure(response.result.error! as! CustomError)
+        let task = URLSession.shared.dataTask(with: url) { (data, _, error) in
+            guard let data = data, error == nil else {
+                let result = FetchResult<[URL]>.failure(.networkError(error!))
+                completionHandler(result)
+                return
+            }
+
+            guard let html = String(data: data, encoding: .utf8) else {
+                let result = FetchResult<[URL]>.failure(.invalidData(data))
                 completionHandler(result)
                 return
             }
 
             do {
+                let document: Document = try SwiftSoup.parse(html)
                 let urls: [URL] = try self.parse(document)
                 let result: FetchResult<[URL]> = (urls.isEmpty ? .failure(.emptyData) : .success(urls))
                 completionHandler(result)
             } catch {
-                let result: FetchResult<[URL]> = .failure(.parse(error: error))
+                let result: FetchResult<[URL]> = .failure(.parseError(error))
                 completionHandler(result)
             }
         }
+        task.resume()
     }
 
     // MARK: - Private Methods
