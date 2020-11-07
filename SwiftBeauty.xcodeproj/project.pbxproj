@@ -11,7 +11,6 @@
 		5210C679212483F300B57885 /* SourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5210C678212483F300B57885 /* SourcesViewController.swift */; };
 		5210C67B2124840200B57885 /* SourcesViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5210C67A2124840200B57885 /* SourcesViewController.storyboard */; };
 		52275107211413D60097F03F /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52275106211413D60097F03F /* CustomError.swift */; };
-		52275109211415410097F03F /* HTMLResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52275108211415410097F03F /* HTMLResponseSerialization.swift */; };
 		5227510B211437590097F03F /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5227510A211437590097F03F /* DataModel.swift */; };
 		526130172119FE74009B2023 /* SourceFetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526130162119FE74009B2023 /* SourceFetchable.swift */; };
 		5261301A2119FF30009B2023 /* TimLiaoFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526130192119FF30009B2023 /* TimLiaoFetcher.swift */; };
@@ -40,7 +39,6 @@
 		5210C678212483F300B57885 /* SourcesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcesViewController.swift; sourceTree = "<group>"; };
 		5210C67A2124840200B57885 /* SourcesViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SourcesViewController.storyboard; sourceTree = "<group>"; };
 		52275106211413D60097F03F /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
-		52275108211415410097F03F /* HTMLResponseSerialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLResponseSerialization.swift; sourceTree = "<group>"; };
 		5227510A211437590097F03F /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		526130162119FE74009B2023 /* SourceFetchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceFetchable.swift; sourceTree = "<group>"; };
 		526130192119FF30009B2023 /* TimLiaoFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimLiaoFetcher.swift; sourceTree = "<group>"; };
@@ -104,7 +102,6 @@
 			children = (
 				52275106211413D60097F03F /* CustomError.swift */,
 				5227510A211437590097F03F /* DataModel.swift */,
-				52275108211415410097F03F /* HTMLResponseSerialization.swift */,
 				52DBAE4B2127F32E0061DCC4 /* JKForumFetcher.swift */,
 				526130162119FE74009B2023 /* SourceFetchable.swift */,
 				526130192119FF30009B2023 /* TimLiaoFetcher.swift */,
@@ -335,7 +332,6 @@
 				52275107211413D60097F03F /* CustomError.swift in Sources */,
 				52DBAE4E21288FC90061DCC4 /* CustomNavigationController.swift in Sources */,
 				5227510B211437590097F03F /* DataModel.swift in Sources */,
-				52275109211415410097F03F /* HTMLResponseSerialization.swift in Sources */,
 				52DBAE4C2127F32E0061DCC4 /* JKForumFetcher.swift in Sources */,
 				5282DF862121EBBC00931E17 /* PhotoBrowserViewController.swift in Sources */,
 				529A80B12120866200DF150F /* PhotoCell.swift in Sources */,

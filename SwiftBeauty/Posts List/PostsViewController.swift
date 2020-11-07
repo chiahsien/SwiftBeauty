@@ -16,18 +16,20 @@ final class PostsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = viewModel.title
-        viewModel.fetchPostsAtFirstPage { result in
-            self.handleResult(result)
+        viewModel.fetchPostsAtFirstPage { [weak self] result in
+            self?.handleResult(result)
         }
     }
 
     private func handleResult(_ result: FetchResult<[Post]>) {
-        switch result {
-        case .success(let data):
-            self.data = data
-            tableView.reloadData()
-        case .failure(let error):
-            print("error: \(error)")
+        DispatchQueue.main.async {
+            switch result {
+            case .success(let data):
+                self.data = data
+                self.tableView.reloadData()
+            case .failure(let error):
+                print("error: \(error)")
+            }
         }
     }
 }
@@ -53,8 +55,8 @@ extension PostsViewController: UITableViewDelegate {
         guard indexPath.row == data.count - 1, viewModel.hasMoreData else {
             return
         }
-        viewModel.fetchPostsAtNextPage { result in
-            self.handleResult(result)
+        viewModel.fetchPostsAtNextPage { [weak self] result in
+            self?.handleResult(result)
         }
     }
 

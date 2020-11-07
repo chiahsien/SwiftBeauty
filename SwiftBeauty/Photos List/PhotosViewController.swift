@@ -22,13 +22,16 @@ final class PhotosViewController: UIViewController {
         setupLayout()
 
         title = viewModel.title
-        viewModel.fetchPhotos { result in
-            switch result {
-            case .success(let data):
-                self.data = data
-                self.collectionView.reloadData()
-            case .failure(let error):
-                print("error: \(error)")
+        viewModel.fetchPhotos { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let data):
+                    self.data = data
+                    self.collectionView.reloadData()
+                case .failure(let error):
+                    print("error: \(error)")
+                }
             }
         }
     }
