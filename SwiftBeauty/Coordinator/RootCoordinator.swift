@@ -10,7 +10,7 @@ import UIKit
 
 final class RootCoordinator: CoordinatorProtocol {
     private var navigation: UINavigationController
-    private var source: SourceFetchable.Type = TimLiaoFetcher.self
+    private var source: SourceFetchable = TimLiaoFetcher()
 
     required init(navigationController: UINavigationController) {
         self.navigation = navigationController
@@ -32,7 +32,7 @@ extension RootCoordinator: SourcesViewControllerDelegate {
         return viewController
     }
 
-    func sourcesViewController(_ controller: SourcesViewController, didSelect source: SourceFetchable.Type) {
+    func sourcesViewController(_ controller: SourcesViewController, didSelect source: SourceFetchable) {
         self.source = source
         let vc = createPostsViewController()
         navigation.pushViewController(vc, animated: true)
@@ -44,7 +44,7 @@ extension RootCoordinator: PostsViewModelDelegate {
     private func createPostsViewController() -> PostsViewController {
         let typeName = "\(PostsViewController.self)"
         let storyboard = UIStoryboard(name: typeName, bundle: nil)
-        let viewModel = PostsViewModel(source.init())
+        let viewModel = PostsViewModel(source)
         let viewController = storyboard.instantiateViewController(withIdentifier: typeName) as! PostsViewController
         viewController.viewModel = viewModel
         viewModel.delegate = self
@@ -62,7 +62,7 @@ extension RootCoordinator: PhotosViewModelDelegate {
     private func createPhotosViewController(for post: Post) -> PhotosViewController {
         let typeName = "\(PhotosViewController.self)"
         let storyboard = UIStoryboard(name: typeName, bundle: nil)
-        let viewModel = PhotosViewModel(source.init(), post: post)
+        let viewModel = PhotosViewModel(source, post: post)
         let viewController = storyboard.instantiateViewController(withIdentifier: typeName) as! PhotosViewController
         viewController.viewModel = viewModel
         viewModel.delegate = self

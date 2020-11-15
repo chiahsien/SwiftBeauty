@@ -9,75 +9,29 @@
 import Foundation
 import SwiftSoup
 
-final class TimLiaoFetcher: SourceFetchable {
+struct TimLiaoFetcher: SourceFetchable {
     private static let cfEncoding = CFStringEncodings.big5
     private static let nsEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(cfEncoding.rawValue))
     private static let encoding = String.Encoding(rawValue: nsEncoding)
 
     // MARK: - SourceFetchable
 
-    static var sourceName: String {
+    var sourceName: String {
         return "提姆正妹"
     }
 
     func fetchPosts(at page: UInt, completionHandler: @escaping (FetchResult<[Post]>) -> Void) {
         let path = "http://www.timliao.com/bbs/forumdisplay.php?fid=18&filter=0&orderby=dateline&page=\(page)"
-        let task = URLSession.shared.dataTask(with: URL(string: path)!) { (data, _, error) in
-            guard let data = data, error == nil else {
-                let result = FetchResult<[Post]>.failure(.networkError(error!))
-                completionHandler(result)
-                return
-            }
-
-            guard let html = String(data: data, encoding: TimLiaoFetcher.encoding) else {
-                let result = FetchResult<[Post]>.failure(.invalidData(data))
-                completionHandler(result)
-                return
-            }
-
-            do {
-                let document: Document = try SwiftSoup.parse(html)
-                let posts: [Post] = try self.parse(document)
-                let result: FetchResult<[Post]> = (posts.isEmpty ? .failure(.emptyData) : .success(posts))
-                completionHandler(result)
-            } catch {
-                let result: FetchResult<[Post]> = .failure(.parseError(error))
-                completionHandler(result)
-            }
-        }
-        task.resume()
+        fetchHTML(at: URL(string: path)!, encoding: TimLiaoFetcher.encoding, using: postsParser, completionHandler: completionHandler)
     }
 
     func fetchPhotos(at url: URL, completionHandler: @escaping (FetchResult<[URL]>) -> Void) {
-        let task = URLSession.shared.dataTask(with: url) { (data, _, error) in
-            guard let data = data, error == nil else {
-                let result = FetchResult<[URL]>.failure(.networkError(error!))
-                completionHandler(result)
-                return
-            }
-
-            guard let html = String(data: data, encoding: .isoLatin1) else {
-                let result = FetchResult<[URL]>.failure(.invalidData(data))
-                completionHandler(result)
-                return
-            }
-
-            do {
-                let document: Document = try SwiftSoup.parse(html)
-                let urls: [URL] = try self.parse(document)
-                let result: FetchResult<[URL]> = (urls.isEmpty ? .failure(.emptyData) : .success(urls))
-                completionHandler(result)
-            } catch {
-                let result: FetchResult<[URL]> = .failure(.parseError(error))
-                completionHandler(result)
-            }
-        }
-        task.resume()
+        fetchHTML(at: url, encoding: .isoLatin1, using: photosParser, completionHandler: completionHandler)
     }
 
     // MARK: - Private Methods
-
-    private func parse(_ document: Document) throws -> [Post] {
+    private let postsParser: Parser<Post> = { html in
+        let document: Document = try SwiftSoup.parse(html)
         let query = "#container_all > form li.forum-card > div.pic > a:not([href='http://www.timliao.com'])"
         let elements = try document.select(query)
 
@@ -110,7 +64,8 @@ final class TimLiaoFetcher: SourceFetchable {
         return posts
     }
 
-    private func parse(_ document: Document) throws -> [URL] {
+    private let photosParser: Parser<URL> = { html in
+        let document: Document = try SwiftSoup.parse(html)
         let query = "div.postcontent > div.mt10 > a > img"
         let elements = try document.select(query)
 

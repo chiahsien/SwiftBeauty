@@ -17,7 +17,7 @@ final class PostsViewModel {
     private(set) var hasMoreData = true
     weak var delegate: PostsViewModelDelegate?
     var title: String {
-        return type(of: fetcher).sourceName
+        return fetcher.sourceName
     }
 
     // MARK: - Private Properties

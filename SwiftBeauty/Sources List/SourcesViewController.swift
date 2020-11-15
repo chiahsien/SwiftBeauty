@@ -9,19 +9,19 @@
 import UIKit
 
 protocol SourcesViewControllerDelegate: AnyObject {
-    func sourcesViewController(_ controller: SourcesViewController, didSelect source: SourceFetchable.Type)
+    func sourcesViewController(_ controller: SourcesViewController, didSelect source: SourceFetchable)
 }
 
 final class SourcesViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     weak var delegate: SourcesViewControllerDelegate?
 
-    let data: [SourceFetchable.Type] = [
-        TimLiaoFetcher.self,
-        JKForumWesternFetcher.self,
-        JKForumAsiaFetcher.self,
-        JKForumAmateurFetcher.self,
-        JKForumJkfGirlFetcher.self
+    let data: [SourceFetchable] = [
+        TimLiaoFetcher(),
+        JKForum(forum: .western),
+        JKForum(forum: .asian),
+        JKForum(forum: .amateur),
+        JKForum(forum: .jkfGirl)
     ]
 
     override func viewDidLoad() {
