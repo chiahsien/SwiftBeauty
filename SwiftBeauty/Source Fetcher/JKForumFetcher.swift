@@ -21,7 +21,7 @@ struct JKForum: SourceFetchable {
         case .asian:
             return "JKF - 亞洲美女"
         case .amateur:
-            return "JKF - 亞洲美女"
+            return "JKF - 素人美女"
         case .jkfGirl:
             return "JKF - JKF女郎"
         }
